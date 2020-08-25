@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d6d58ac69b944961bdd239cd6c6a4410" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.Article" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Categorie" Width="1.5" PointX="1.5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Commande" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Fournisseur" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Livraison" Width="1.5" PointX="7.5" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Marque" Width="1.5" PointX="0.75" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Mode_Livraison" Width="1.5" PointX="5.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Utilisateur" Width="1.5" PointX="3" PointY="12.25" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_Article_Fournisseur" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Article_Marque" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Commande_Article" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Categorie_Categorie" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Commande_Categorie" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Marque_Categorie" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Commande_Commande" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Commande_Utilisateur" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Livraison_Commande" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Livraison_Mode_Livraison" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,704 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="Art_Id" />
+          </Key>
+          <Property Name="Art_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cat_Id" Type="int" />
+          <Property Name="Fourn_Id" Type="int" />
+          <Property Name="Art_Designation" Type="varchar" MaxLength="50" />
+          <Property Name="Art_Prix" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Qte_Stock" Type="int" />
+          <Property Name="Taut_TVA" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Taut_Remise" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Art_Img" Type="image" />
+          <Property Name="Art_Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Marq_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Categorie">
+          <Key>
+            <PropertyRef Name="Cat_Id" />
+          </Key>
+          <Property Name="Cat_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cat_Designation" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Commande">
+          <Key>
+            <PropertyRef Name="Cmd_id" />
+          </Key>
+          <Property Name="Cmd_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_id" Type="int" />
+          <Property Name="Etat_Cmd" Type="varchar" MaxLength="50" />
+          <Property Name="Date_Cmd" Type="date" />
+          <Property Name="Cmd_Total" Type="decimal" Precision="18" Scale="3" />
+          <Property Name="Cat_Id" Type="int" />
+          <Property Name="Marq_Id" Type="int" />
+          <Property Name="Art_Id" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Fournisseur">
+          <Key>
+            <PropertyRef Name="Fourn_Id" />
+          </Key>
+          <Property Name="Fourn_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fourn_Nom" Type="varchar" MaxLength="50" />
+          <Property Name="Fourn_Email" Type="varchar" MaxLength="50" />
+          <Property Name="Fourn_Tel" Type="varchar" MaxLength="50" />
+          <Property Name="Fourn_Descrip" Type="nvarchar" MaxLength="50" />
+          <Property Name="Fourn_Adress" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Livraison">
+          <Key>
+            <PropertyRef Name="Liv_Id" />
+          </Key>
+          <Property Name="Liv_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mode_Liv_Id" Type="int" />
+          <Property Name="Cmd_Id" Type="bigint" />
+          <Property Name="Liv_Date" Type="date" />
+        </EntityType>
+        <EntityType Name="Marque">
+          <Key>
+            <PropertyRef Name="Marque_Id" />
+          </Key>
+          <Property Name="Marque_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Cat_Id" Type="int" />
+          <Property Name="Marque_Des" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Mode_Livraison">
+          <Key>
+            <PropertyRef Name="Mode_Liv_Id" />
+          </Key>
+          <Property Name="Mode_Liv_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Mode_Liv_Des" Type="varchar" MaxLength="50" />
+          <Property Name="Prix_Liv_Mode" Type="decimal" Precision="18" Scale="3" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Utilisateur">
+          <Key>
+            <PropertyRef Name="Utili_Id" />
+          </Key>
+          <Property Name="Utili_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Utili_Login" Type="varchar" MaxLength="50" />
+          <Property Name="Utili_Mdp" Type="varchar" MaxLength="50" />
+          <Property Name="Utili_Nom" Type="varchar" MaxLength="50" />
+          <Property Name="Utili_Prenom" Type="varchar" MaxLength="50" />
+          <Property Name="Utili_Profil" Type="varchar" MaxLength="50" />
+          <Property Name="Utili_Num_Tel" Type="varchar" MaxLength="50" />
+          <Property Name="Utili_Sexe" Type="varchar" MaxLength="50" />
+          <Property Name="Utili_Adresse" Type="varchar" MaxLength="50" />
+          <Property Name="Utili_Code_Poste" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Article_Fournisseur">
+          <End Role="Fournisseur" Type="Self.Fournisseur" Multiplicity="0..1" />
+          <End Role="Article" Type="Self.Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fournisseur">
+              <PropertyRef Name="Fourn_Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="Fourn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Article_Marque">
+          <End Role="Marque" Type="Self.Marque" Multiplicity="0..1" />
+          <End Role="Article" Type="Self.Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marque">
+              <PropertyRef Name="Marque_Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="Marq_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Categorie_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="1" />
+          <End Role="Categorie1" Type="Self.Categorie" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="Cat_Id" />
+            </Principal>
+            <Dependent Role="Categorie1">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commande_Article">
+          <End Role="Article" Type="Self.Article" Multiplicity="0..1" />
+          <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Article">
+              <PropertyRef Name="Art_Id" />
+            </Principal>
+            <Dependent Role="Commande">
+              <PropertyRef Name="Art_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commande_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="0..1" />
+          <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="Cat_Id" />
+            </Principal>
+            <Dependent Role="Commande">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commande_Commande">
+          <End Role="Commande" Type="Self.Commande" Multiplicity="1" />
+          <End Role="Commande1" Type="Self.Commande" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Commande">
+              <PropertyRef Name="Cmd_id" />
+            </Principal>
+            <Dependent Role="Commande1">
+              <PropertyRef Name="Cmd_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commande_Utilisateur">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="0..1" />
+          <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="Utili_Id" />
+            </Principal>
+            <Dependent Role="Commande">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Livraison_Commande">
+          <End Role="Commande" Type="Self.Commande" Multiplicity="0..1" />
+          <End Role="Livraison" Type="Self.Livraison" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commande">
+              <PropertyRef Name="Cmd_id" />
+            </Principal>
+            <Dependent Role="Livraison">
+              <PropertyRef Name="Cmd_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Livraison_Mode_Livraison">
+          <End Role="Mode_Livraison" Type="Self.Mode_Livraison" Multiplicity="0..1" />
+          <End Role="Livraison" Type="Self.Livraison" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mode_Livraison">
+              <PropertyRef Name="Mode_Liv_Id" />
+            </Principal>
+            <Dependent Role="Livraison">
+              <PropertyRef Name="Mode_Liv_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marque_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="0..1" />
+          <End Role="Marque" Type="Self.Marque" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="Cat_Id" />
+            </Principal>
+            <Dependent Role="Marque">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Article" EntityType="Self.Article" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categorie" EntityType="Self.Categorie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Commande" EntityType="Self.Commande" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Fournisseur" EntityType="Self.Fournisseur" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Livraison" EntityType="Self.Livraison" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Marque" EntityType="Self.Marque" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mode_Livraison" EntityType="Self.Mode_Livraison" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utilisateur" EntityType="Self.Utilisateur" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Article_Fournisseur" Association="Self.FK_Article_Fournisseur">
+            <End Role="Fournisseur" EntitySet="Fournisseur" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Article_Marque" Association="Self.FK_Article_Marque">
+            <End Role="Marque" EntitySet="Marque" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Categorie_Categorie" Association="Self.FK_Categorie_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Categorie1" EntitySet="Categorie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Article" Association="Self.FK_Commande_Article">
+            <End Role="Article" EntitySet="Article" />
+            <End Role="Commande" EntitySet="Commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Categorie" Association="Self.FK_Commande_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Commande" EntitySet="Commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Commande" Association="Self.FK_Commande_Commande">
+            <End Role="Commande" EntitySet="Commande" />
+            <End Role="Commande1" EntitySet="Commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Utilisateur" Association="Self.FK_Commande_Utilisateur">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Commande" EntitySet="Commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Livraison_Commande" Association="Self.FK_Livraison_Commande">
+            <End Role="Commande" EntitySet="Commande" />
+            <End Role="Livraison" EntitySet="Livraison" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Livraison_Mode_Livraison" Association="Self.FK_Livraison_Mode_Livraison">
+            <End Role="Mode_Livraison" EntitySet="Mode_Livraison" />
+            <End Role="Livraison" EntitySet="Livraison" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marque_Categorie" Association="Self.FK_Marque_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Marque" EntitySet="Marque" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="Art_Id" />
+          </Key>
+          <Property Name="Art_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cat_Id" Type="Int32" />
+          <Property Name="Fourn_Id" Type="Int32" />
+          <Property Name="Art_Designation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Art_Prix" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Qte_Stock" Type="Int32" />
+          <Property Name="Taut_TVA" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Taut_Remise" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Art_Img" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Art_Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Marq_Id" Type="Int32" />
+          <NavigationProperty Name="Fournisseur" Relationship="Self.FK_Article_Fournisseur" FromRole="Article" ToRole="Fournisseur" />
+          <NavigationProperty Name="Marque" Relationship="Self.FK_Article_Marque" FromRole="Article" ToRole="Marque" />
+          <NavigationProperty Name="Commande" Relationship="Self.FK_Commande_Article" FromRole="Article" ToRole="Commande" />
+        </EntityType>
+        <EntityType Name="Categorie">
+          <Key>
+            <PropertyRef Name="Cat_Id" />
+          </Key>
+          <Property Name="Cat_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cat_Designation" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Categorie1" Relationship="Self.FK_Categorie_Categorie" FromRole="Categorie" ToRole="Categorie1" />
+          <NavigationProperty Name="Categorie2" Relationship="Self.FK_Categorie_Categorie" FromRole="Categorie1" ToRole="Categorie" />
+          <NavigationProperty Name="Commande" Relationship="Self.FK_Commande_Categorie" FromRole="Categorie" ToRole="Commande" />
+          <NavigationProperty Name="Marque" Relationship="Self.FK_Marque_Categorie" FromRole="Categorie" ToRole="Marque" />
+        </EntityType>
+        <EntityType Name="Commande">
+          <Key>
+            <PropertyRef Name="Cmd_id" />
+          </Key>
+          <Property Name="Cmd_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="User_id" Type="Int32" />
+          <Property Name="Etat_Cmd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date_Cmd" Type="DateTime" Precision="0" />
+          <Property Name="Cmd_Total" Type="Decimal" Precision="18" Scale="3" />
+          <Property Name="Cat_Id" Type="Int32" />
+          <Property Name="Marq_Id" Type="Int32" />
+          <Property Name="Art_Id" Type="Int64" />
+          <NavigationProperty Name="Article" Relationship="Self.FK_Commande_Article" FromRole="Commande" ToRole="Article" />
+          <NavigationProperty Name="Categorie" Relationship="Self.FK_Commande_Categorie" FromRole="Commande" ToRole="Categorie" />
+          <NavigationProperty Name="Commande1" Relationship="Self.FK_Commande_Commande" FromRole="Commande" ToRole="Commande1" />
+          <NavigationProperty Name="Commande2" Relationship="Self.FK_Commande_Commande" FromRole="Commande1" ToRole="Commande" />
+          <NavigationProperty Name="Utilisateur" Relationship="Self.FK_Commande_Utilisateur" FromRole="Commande" ToRole="Utilisateur" />
+          <NavigationProperty Name="Livraison" Relationship="Self.FK_Livraison_Commande" FromRole="Commande" ToRole="Livraison" />
+        </EntityType>
+        <EntityType Name="Fournisseur">
+          <Key>
+            <PropertyRef Name="Fourn_Id" />
+          </Key>
+          <Property Name="Fourn_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fourn_Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fourn_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fourn_Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fourn_Descrip" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fourn_Adress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Article" Relationship="Self.FK_Article_Fournisseur" FromRole="Fournisseur" ToRole="Article" />
+        </EntityType>
+        <EntityType Name="Livraison">
+          <Key>
+            <PropertyRef Name="Liv_Id" />
+          </Key>
+          <Property Name="Liv_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mode_Liv_Id" Type="Int32" />
+          <Property Name="Cmd_Id" Type="Int64" />
+          <Property Name="Liv_Date" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Commande" Relationship="Self.FK_Livraison_Commande" FromRole="Livraison" ToRole="Commande" />
+          <NavigationProperty Name="Mode_Livraison" Relationship="Self.FK_Livraison_Mode_Livraison" FromRole="Livraison" ToRole="Mode_Livraison" />
+        </EntityType>
+        <EntityType Name="Marque">
+          <Key>
+            <PropertyRef Name="Marque_Id" />
+          </Key>
+          <Property Name="Marque_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Cat_Id" Type="Int32" />
+          <Property Name="Marque_Des" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Article" Relationship="Self.FK_Article_Marque" FromRole="Marque" ToRole="Article" />
+          <NavigationProperty Name="Categorie" Relationship="Self.FK_Marque_Categorie" FromRole="Marque" ToRole="Categorie" />
+        </EntityType>
+        <EntityType Name="Mode_Livraison">
+          <Key>
+            <PropertyRef Name="Mode_Liv_Id" />
+          </Key>
+          <Property Name="Mode_Liv_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mode_Liv_Des" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Prix_Liv_Mode" Type="Decimal" Precision="18" Scale="3" />
+          <NavigationProperty Name="Livraison" Relationship="Self.FK_Livraison_Mode_Livraison" FromRole="Mode_Livraison" ToRole="Livraison" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Utilisateur">
+          <Key>
+            <PropertyRef Name="Utili_Id" />
+          </Key>
+          <Property Name="Utili_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Utili_Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Utili_Mdp" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Utili_Nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Utili_Prenom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Utili_Profil" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Utili_Num_Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Utili_Sexe" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Utili_Adresse" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Utili_Code_Poste" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Commande" Relationship="Self.FK_Commande_Utilisateur" FromRole="Utilisateur" ToRole="Commande" />
+        </EntityType>
+        <Association Name="FK_Article_Fournisseur">
+          <End Role="Fournisseur" Type="Self.Fournisseur" Multiplicity="0..1" />
+          <End Role="Article" Type="Self.Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Fournisseur">
+              <PropertyRef Name="Fourn_Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="Fourn_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Article_Marque">
+          <End Role="Marque" Type="Self.Marque" Multiplicity="0..1" />
+          <End Role="Article" Type="Self.Article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Marque">
+              <PropertyRef Name="Marque_Id" />
+            </Principal>
+            <Dependent Role="Article">
+              <PropertyRef Name="Marq_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commande_Article">
+          <End Role="Article" Type="Self.Article" Multiplicity="0..1" />
+          <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Article">
+              <PropertyRef Name="Art_Id" />
+            </Principal>
+            <Dependent Role="Commande">
+              <PropertyRef Name="Art_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Categorie_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="1" />
+          <End Role="Categorie1" Type="Self.Categorie" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="Cat_Id" />
+            </Principal>
+            <Dependent Role="Categorie1">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commande_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="0..1" />
+          <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="Cat_Id" />
+            </Principal>
+            <Dependent Role="Commande">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Marque_Categorie">
+          <End Role="Categorie" Type="Self.Categorie" Multiplicity="0..1" />
+          <End Role="Marque" Type="Self.Marque" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categorie">
+              <PropertyRef Name="Cat_Id" />
+            </Principal>
+            <Dependent Role="Marque">
+              <PropertyRef Name="Cat_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commande_Commande">
+          <End Role="Commande" Type="Self.Commande" Multiplicity="1" />
+          <End Role="Commande1" Type="Self.Commande" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Commande">
+              <PropertyRef Name="Cmd_id" />
+            </Principal>
+            <Dependent Role="Commande1">
+              <PropertyRef Name="Cmd_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Commande_Utilisateur">
+          <End Role="Utilisateur" Type="Self.Utilisateur" Multiplicity="0..1" />
+          <End Role="Commande" Type="Self.Commande" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utilisateur">
+              <PropertyRef Name="Utili_Id" />
+            </Principal>
+            <Dependent Role="Commande">
+              <PropertyRef Name="User_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Livraison_Commande">
+          <End Role="Commande" Type="Self.Commande" Multiplicity="0..1" />
+          <End Role="Livraison" Type="Self.Livraison" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Commande">
+              <PropertyRef Name="Cmd_id" />
+            </Principal>
+            <Dependent Role="Livraison">
+              <PropertyRef Name="Cmd_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Livraison_Mode_Livraison">
+          <End Role="Mode_Livraison" Type="Self.Mode_Livraison" Multiplicity="0..1" />
+          <End Role="Livraison" Type="Self.Livraison" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mode_Livraison">
+              <PropertyRef Name="Mode_Liv_Id" />
+            </Principal>
+            <Dependent Role="Livraison">
+              <PropertyRef Name="Mode_Liv_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBModel" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Article" EntityType="Self.Article" />
+          <EntitySet Name="Categorie" EntityType="Self.Categorie" />
+          <EntitySet Name="Commande" EntityType="Self.Commande" />
+          <EntitySet Name="Fournisseur" EntityType="Self.Fournisseur" />
+          <EntitySet Name="Livraison" EntityType="Self.Livraison" />
+          <EntitySet Name="Marque" EntityType="Self.Marque" />
+          <EntitySet Name="Mode_Livraison" EntityType="Self.Mode_Livraison" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Utilisateur" EntityType="Self.Utilisateur" />
+          <AssociationSet Name="FK_Article_Fournisseur" Association="Self.FK_Article_Fournisseur">
+            <End Role="Fournisseur" EntitySet="Fournisseur" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Article_Marque" Association="Self.FK_Article_Marque">
+            <End Role="Marque" EntitySet="Marque" />
+            <End Role="Article" EntitySet="Article" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Article" Association="Self.FK_Commande_Article">
+            <End Role="Article" EntitySet="Article" />
+            <End Role="Commande" EntitySet="Commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Categorie_Categorie" Association="Self.FK_Categorie_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Categorie1" EntitySet="Categorie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Categorie" Association="Self.FK_Commande_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Commande" EntitySet="Commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Marque_Categorie" Association="Self.FK_Marque_Categorie">
+            <End Role="Categorie" EntitySet="Categorie" />
+            <End Role="Marque" EntitySet="Marque" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Commande" Association="Self.FK_Commande_Commande">
+            <End Role="Commande" EntitySet="Commande" />
+            <End Role="Commande1" EntitySet="Commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Commande_Utilisateur" Association="Self.FK_Commande_Utilisateur">
+            <End Role="Utilisateur" EntitySet="Utilisateur" />
+            <End Role="Commande" EntitySet="Commande" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Livraison_Commande" Association="Self.FK_Livraison_Commande">
+            <End Role="Commande" EntitySet="Commande" />
+            <End Role="Livraison" EntitySet="Livraison" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Livraison_Mode_Livraison" Association="Self.FK_Livraison_Mode_Livraison">
+            <End Role="Mode_Livraison" EntitySet="Mode_Livraison" />
+            <End Role="Livraison" EntitySet="Livraison" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="DBModel">
+          <EntitySetMapping Name="Article">
+            <EntityTypeMapping TypeName="Model.Article">
+              <MappingFragment StoreEntitySet="Article">
+                <ScalarProperty Name="Art_Id" ColumnName="Art_Id" />
+                <ScalarProperty Name="Cat_Id" ColumnName="Cat_Id" />
+                <ScalarProperty Name="Fourn_Id" ColumnName="Fourn_Id" />
+                <ScalarProperty Name="Art_Designation" ColumnName="Art_Designation" />
+                <ScalarProperty Name="Art_Prix" ColumnName="Art_Prix" />
+                <ScalarProperty Name="Qte_Stock" ColumnName="Qte_Stock" />
+                <ScalarProperty Name="Taut_TVA" ColumnName="Taut_TVA" />
+                <ScalarProperty Name="Taut_Remise" ColumnName="Taut_Remise" />
+                <ScalarProperty Name="Art_Img" ColumnName="Art_Img" />
+                <ScalarProperty Name="Art_Description" ColumnName="Art_Description" />
+                <ScalarProperty Name="Marq_Id" ColumnName="Marq_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categorie">
+            <EntityTypeMapping TypeName="Model.Categorie">
+              <MappingFragment StoreEntitySet="Categorie">
+                <ScalarProperty Name="Cat_Id" ColumnName="Cat_Id" />
+                <ScalarProperty Name="Cat_Designation" ColumnName="Cat_Designation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Commande">
+            <EntityTypeMapping TypeName="Model.Commande">
+              <MappingFragment StoreEntitySet="Commande">
+                <ScalarProperty Name="Cmd_id" ColumnName="Cmd_id" />
+                <ScalarProperty Name="User_id" ColumnName="User_id" />
+                <ScalarProperty Name="Etat_Cmd" ColumnName="Etat_Cmd" />
+                <ScalarProperty Name="Date_Cmd" ColumnName="Date_Cmd" />
+                <ScalarProperty Name="Cmd_Total" ColumnName="Cmd_Total" />
+                <ScalarProperty Name="Cat_Id" ColumnName="Cat_Id" />
+                <ScalarProperty Name="Marq_Id" ColumnName="Marq_Id" />
+                <ScalarProperty Name="Art_Id" ColumnName="Art_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Fournisseur">
+            <EntityTypeMapping TypeName="Model.Fournisseur">
+              <MappingFragment StoreEntitySet="Fournisseur">
+                <ScalarProperty Name="Fourn_Id" ColumnName="Fourn_Id" />
+                <ScalarProperty Name="Fourn_Nom" ColumnName="Fourn_Nom" />
+                <ScalarProperty Name="Fourn_Email" ColumnName="Fourn_Email" />
+                <ScalarProperty Name="Fourn_Tel" ColumnName="Fourn_Tel" />
+                <ScalarProperty Name="Fourn_Descrip" ColumnName="Fourn_Descrip" />
+                <ScalarProperty Name="Fourn_Adress" ColumnName="Fourn_Adress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Livraison">
+            <EntityTypeMapping TypeName="Model.Livraison">
+              <MappingFragment StoreEntitySet="Livraison">
+                <ScalarProperty Name="Liv_Id" ColumnName="Liv_Id" />
+                <ScalarProperty Name="Mode_Liv_Id" ColumnName="Mode_Liv_Id" />
+                <ScalarProperty Name="Cmd_Id" ColumnName="Cmd_Id" />
+                <ScalarProperty Name="Liv_Date" ColumnName="Liv_Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Marque">
+            <EntityTypeMapping TypeName="Model.Marque">
+              <MappingFragment StoreEntitySet="Marque">
+                <ScalarProperty Name="Marque_Id" ColumnName="Marque_Id" />
+                <ScalarProperty Name="Cat_Id" ColumnName="Cat_Id" />
+                <ScalarProperty Name="Marque_Des" ColumnName="Marque_Des" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mode_Livraison">
+            <EntityTypeMapping TypeName="Model.Mode_Livraison">
+              <MappingFragment StoreEntitySet="Mode_Livraison">
+                <ScalarProperty Name="Mode_Liv_Id" ColumnName="Mode_Liv_Id" />
+                <ScalarProperty Name="Mode_Liv_Des" ColumnName="Mode_Liv_Des" />
+                <ScalarProperty Name="Prix_Liv_Mode" ColumnName="Prix_Liv_Mode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utilisateur">
+            <EntityTypeMapping TypeName="Model.Utilisateur">
+              <MappingFragment StoreEntitySet="Utilisateur">
+                <ScalarProperty Name="Utili_Id" ColumnName="Utili_Id" />
+                <ScalarProperty Name="Utili_Login" ColumnName="Utili_Login" />
+                <ScalarProperty Name="Utili_Mdp" ColumnName="Utili_Mdp" />
+                <ScalarProperty Name="Utili_Nom" ColumnName="Utili_Nom" />
+                <ScalarProperty Name="Utili_Prenom" ColumnName="Utili_Prenom" />
+                <ScalarProperty Name="Utili_Profil" ColumnName="Utili_Profil" />
+                <ScalarProperty Name="Utili_Num_Tel" ColumnName="Utili_Num_Tel" />
+                <ScalarProperty Name="Utili_Sexe" ColumnName="Utili_Sexe" />
+                <ScalarProperty Name="Utili_Adresse" ColumnName="Utili_Adresse" />
+                <ScalarProperty Name="Utili_Code_Poste" ColumnName="Utili_Code_Poste" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
